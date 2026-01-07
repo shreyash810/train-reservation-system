@@ -1,11 +1,10 @@
-/* Page heading */
+
 h2 {
-  color: #003b95; /* IRCTC blue */
+  color: #003b95;
   margin-bottom: 16px;
   font-weight: bold;
 }
 
-/* Table styling */
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -13,7 +12,6 @@ h2 {
   background-color: #ffffff;
 }
 
-/* Header row */
 .table thead {
   background-color: #003b95;
   color: white;
@@ -26,20 +24,17 @@ h2 {
   text-align: left;
 }
 
-/* Row hover */
 .table tbody tr:hover {
   background-color: #f1f6ff;
   cursor: pointer;
 }
 
-/* Detail section */
 .detail {
   margin-top: 25px;
   padding-top: 15px;
   border-top: 2px solid #003b95;
 }
 
-/* Textarea & button */
 textarea {
   width: 100%;
   min-height: 70px;
