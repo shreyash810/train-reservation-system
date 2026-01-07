@@ -1,0 +1,53 @@
+<h2>Search Reservations</h2>
+
+<div class="filters">
+  <input placeholder="Reservation ID" [(ngModel)]="criteria.reservationId">
+  <input placeholder="Passenger Name" [(ngModel)]="criteria.passengerName">
+  <input placeholder="Train Number" [(ngModel)]="criteria.trainNumber">
+
+  <select [(ngModel)]="criteria.status">
+    <option value="">All Status</option>
+    <option>Confirmed</option>
+    <option>Pending</option>
+    <option>Cancelled</option>
+  </select>
+
+  <input type="date" [(ngModel)]="criteria.reservationDate">
+
+  <button (click)="search()">Search</button>
+</div>
+
+<table class="table" *ngIf="results.length">
+  <thead>
+    <tr>
+      <th>Reservation ID</th>
+      <th>Passenger</th>
+      <th>Train Number</th>
+      <th>Train Details</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let r of paginatedResults">
+      <td>{{ r.reservationId }}</td>
+      <td>{{ r.passengerName }}</td>
+      <td>{{ r.trainNumber }}</td>
+      <td>
+        <a href="#">View</a>
+      </td>
+      <td>{{ r.status }}</td>
+      <td>
+        <button (click)="editReservation(r.reservationId)">Edit</button>
+        <button (click)="cancelReservation(r.reservationId)">Cancel</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="pagination" *ngIf="results.length">
+  <button (click)="prevPage()">Previous</button>
+  <span>Page {{ currentPage }}</span>
+  <button (click)="nextPage()">Next</button>
+</div>

@@ -1,0 +1,66 @@
+<h2>Staff Complaint Dashboard</h2>
+
+<!-- Complaint List -->
+<table class="table">
+  <thead>
+    <tr>
+      <th>Complaint ID</th>
+      <th>Passenger Name</th>
+      <th>Date Submitted</th>
+      <th>Category</th>
+      <th>Status</th>
+      <th>Priority</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let c of complaints" (click)="select(c)">
+      <td>{{ c.id }}</td>
+      <td>{{ c.customerName }}</td>
+      <td>{{ c.submittedDate }}</td>
+      <td>{{ c.category }}</td>
+      <td>{{ c.status }}</td>
+      <td>{{ c.priority }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Detailed Complaint View -->
+<div *ngIf="selected" class="detail">
+  <h3>Complaint Details</h3>
+
+  <p><b>Complaint ID:</b> {{ selected.id }}</p>
+  <p><b>Passenger Name:</b> {{ selected.customerName }}</p>
+  <p><b>Date Submitted:</b> {{ selected.submittedDate }}</p>
+  <p><b>Category:</b> {{ selected.category }}</p>
+  <p><b>Current Status:</b> {{ selected.status }}</p>
+  <p><b>Priority Level:</b> {{ selected.priority }}</p>
+
+  <hr>
+
+  <p><b>Complaint Description:</b></p>
+  <p>{{ selected.description }}</p>
+
+  <hr>
+
+  <h4>Update Complaint Status</h4>
+  <select (change)="updateStatus(selected.id, $any($event.target).value)">
+    <option>In Progress</option>
+    <option>Resolved</option>
+    <option>Escalated</option>
+  </select>
+
+  <h4>Log Action / Resolution Notes</h4>
+  <textarea #note placeholder="Steps taken, communication with passenger, internal notes"></textarea>
+  <br>
+  <button (click)="logAction(selected.id, note.value)">Log Action</button>
+
+  <hr>
+
+  <h4>Action History</h4>
+  <ul>
+    <li *ngFor="let a of selected?.actions">
+      {{ a.actionDate }} — {{ a.actionBy }} — {{ a.notes }}
+    </li>
+  </ul>
+</div>

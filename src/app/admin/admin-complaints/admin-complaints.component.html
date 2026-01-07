@@ -1,0 +1,55 @@
+<h2>Admin Complaint Dashboard</h2>
+
+<div class="filters">
+  <input placeholder="Search by ID / Name"
+         [(ngModel)]="searchText"
+         (input)="filterComplaints()">
+
+  <select [(ngModel)]="statusFilter" (change)="filterComplaints()">
+    <option value="">All Status</option>
+    <option>Open</option>
+    <option>In Progress</option>
+    <option>Resolved</option>
+    <option>Closed</option>
+  </select>
+
+  <select [(ngModel)]="categoryFilter" (change)="filterComplaints()">
+    <option value="">All Categories</option>
+    <option>Payment</option>
+    <option>Booking</option>
+    <option>Cleanliness</option>
+  </select>
+</div>
+
+<div *ngFor="let c of filtered" class="card">
+  <h3>{{ c.title }}</h3>
+
+  <p><b>ID:</b> {{ c.id }}</p>
+  <p><b>Customer:</b> {{ c.customerName }}</p>
+  <p><b>Submitted:</b> {{ c.submittedDate }}</p>
+  <p><b>Category:</b> {{ c.category }}</p>
+  <p><b>Status:</b> {{ c.status }}</p>
+  <p><b>Assigned:</b> {{ c.assignedStaff || 'Not Assigned' }}</p>
+
+  <select (change)="assign(c.id, $any($event.target).value)">
+    <option value="">Assign Staff</option>
+    <option>Ramesh (Cleaning)</option>
+    <option>Anita (Billing)</option>
+  </select>
+
+  <select (change)="updateStatus(c.id, $any($event.target).value)">
+    <option>Open</option>
+    <option>In Progress</option>
+    <option>Resolved</option>
+    <option>Closed</option>
+  </select>
+
+  <textarea #note placeholder="Resolution / investigation note"></textarea>
+  <button (click)="addAction(c.id, note.value)">Save Action</button>
+
+  <ul>
+    <li *ngFor="let a of c.actions">
+      {{ a.actionDate }} – {{ a.actionBy }} – {{ a.notes }}
+    </li>
+  </ul>
+</div>

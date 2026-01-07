@@ -1,0 +1,60 @@
+/* Page heading */
+h2 {
+  color: #003b95; /* IRCTC blue */
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+
+/* Table styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+}
+
+/* Header row */
+.table thead {
+  background-color: #003b95;
+  color: white;
+}
+
+.table th,
+.table td {
+  border: 1px solid #cfd8dc;
+  padding: 10px;
+  text-align: left;
+}
+
+/* Row hover */
+.table tbody tr:hover {
+  background-color: #f1f6ff;
+  cursor: pointer;
+}
+
+/* Detail section */
+.detail {
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 2px solid #003b95;
+}
+
+/* Textarea & button */
+textarea {
+  width: 100%;
+  min-height: 70px;
+  margin-top: 6px;
+}
+
+button {
+  margin-top: 8px;
+  background-color: #003b95;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #002b6b;
+}
