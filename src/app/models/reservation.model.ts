@@ -3,6 +3,15 @@ export interface Reservation {
   passengerName: string;
   trainNumber: string;
   trainName: string;
-  reservationDate: string; // YYYY-MM-DD
+  source: string;
+  destination: string;
+
+  departureDay: string;
+  departureTime: string;
+  arrivalDay: string;
+  arrivalTime: string;
+  totalKms: number;
+
+  reservationDate: string; 
   status: 'Confirmed' | 'Cancelled' | 'Pending';
 }

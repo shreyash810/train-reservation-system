@@ -21,39 +21,69 @@ export class SearchReservationsComponent {
   };
 
   results: Reservation[] = [];
+  selected?: Reservation;
 
-  currentPage = 1;
-  pageSize = 2;
+  page = 1;
+  pageSize = 3;
 
   constructor(private service: ReservationService) {}
 
+  isValidInput(): boolean {
+    const textRegex = /^[a-zA-Z0-9\s-]*$/;
+    return (
+      textRegex.test(this.criteria.reservationId) &&
+      textRegex.test(this.criteria.passengerName) &&
+      textRegex.test(this.criteria.trainNumber)
+    );
+  }
+  
+  formatDate(dateStr:string): string {
+    if (!dateStr) return '';
+
+    const parts = dateStr.split('-');
+    if (parts.length !==3) return dateStr;
+
+    const year = parts[0];
+    const month = parts[1];
+    const day = parts[2];
+
+    return day + '-' + month + '-' + year;
+  }
   search() {
+    if (!this.isValidInput()) {
+      alert('Invalid input detected. Please correct the fields.');
+      return;
+    }
     this.results = this.service.search(this.criteria);
-    this.currentPage = 1;
+    this.page = 1;
   }
 
   get paginatedResults() {
-    const start = (this.currentPage - 1) * this.pageSize;
+    const start = (this.page - 1) * this.pageSize;
     return this.results.slice(start, start + this.pageSize);
   }
 
-  nextPage() {
-    if (this.currentPage * this.pageSize < this.results.length) {
-      this.currentPage++;
+  next() {
+    if (this.page * this.pageSize < this.results.length) this.page++;
+  }
+
+  prev() {
+    if (this.page > 1) this.page--;
+  }
+
+  viewTrainDetails(r: Reservation) {
+    this.selected = r;
+  }
+
+  cancel(id: string) {
+    this.service.cancelReservation(id);
+  }
+
+  edit(r: Reservation) {
+    if (r.status === 'Cancelled'){
+      alert('Cancelled reservations cannot be edited');
+      return;
     }
-  }
-
-  prevPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-    }
-  }
-
-  cancelReservation(id: string) {
-    alert(`Reservation ${id} cancelled`);
-  }
-
-  editReservation(id: string) {
-    alert(`Edit reservation ${id}`);
+    r.status = r.status === 'Confirmed' ? 'Pending' : 'Confirmed';
   }
 }

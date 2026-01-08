@@ -1,0 +1,48 @@
+h2 {
+  color: #003b95;
+  margin-bottom: 20px;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.filters input, .filters select {
+  padding: 8px;
+}
+
+button {
+  background-color: #003b95;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.table thead {
+  background-color: #003b95;
+  color: white;
+}
+
+.table th, .table td {
+  border: 1px solid #cfd8dc;
+  padding: 10px;
+}
+
+.pagination {
+  margin-top: 15px;
+}
+
+.detail {
+  margin-top: 20px;
+  border-top: 2px solid #003b95;
+  padding-top: 10px;
+}

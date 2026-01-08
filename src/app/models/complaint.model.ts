@@ -1,6 +1,6 @@
 export interface ComplaintAction {
   actionDate: string;
-  actionBy: string;        // Admin / Staff name
+  actionBy: string;        
   notes: string;
 }
 
