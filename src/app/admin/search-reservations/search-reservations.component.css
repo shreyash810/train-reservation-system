@@ -10,21 +10,29 @@ h2 {
   flex-wrap: wrap;
 }
 
-.filters input, .filters select {
+.filters input,
+.filters select {
   padding: 8px;
+  font-size: 14px;
 }
 
 button {
   background-color: #003b95;
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 8px 14px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+button:hover {
+  background-color: #002b6b;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
+  background-color: white;
 }
 
 .table thead {
@@ -32,7 +40,8 @@ button {
   color: white;
 }
 
-.table th, .table td {
+.table th,
+.table td {
   border: 1px solid #cfd8dc;
   padding: 10px;
 }
@@ -42,7 +51,7 @@ button {
 }
 
 .detail {
-  margin-top: 20px;
-  border-top: 2px solid #003b95;
-  padding-top: 10px;
+  margin-top: 25px;
+  border-left: 4px solid #003b95;
+  padding-left: 15px;
 }

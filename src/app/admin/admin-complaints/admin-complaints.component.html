@@ -1,9 +1,12 @@
 <h2>Admin Complaint Dashboard</h2>
 
+<!-- FILTERS -->
 <div class="filters">
-  <input placeholder="Search by ID / Name"
-         [(ngModel)]="searchText"
-         (input)="filterComplaints()">
+  <input
+    placeholder="Search by ID / Name"
+    [(ngModel)]="searchText"
+    (input)="filterComplaints()"
+  />
 
   <select [(ngModel)]="statusFilter" (change)="filterComplaints()">
     <option value="">All Status</option>
@@ -21,35 +24,78 @@
   </select>
 </div>
 
-<div *ngFor="let c of filtered" class="card">
-  <h3>{{ c.title }}</h3>
+<!-- DASHBOARD TABLE -->
+<table class="table" *ngIf="filtered.length">
+  <thead>
+    <tr>
+      <th>Complaint ID</th>
+      <th>Customer Name</th>
+      <th>Submitted Date</th>
+      <th>Category</th>
+      <th>Status</th>
+      <th>Assigned Staff</th>
+    </tr>
+  </thead>
 
-  <p><b>ID:</b> {{ c.id }}</p>
-  <p><b>Customer:</b> {{ c.customerName }}</p>
-  <p><b>Submitted:</b> {{ c.submittedDate }}</p>
-  <p><b>Category:</b> {{ c.category }}</p>
-  <p><b>Status:</b> {{ c.status }}</p>
-  <p><b>Assigned:</b> {{ c.assignedStaff || 'Not Assigned' }}</p>
+  <tbody>
+    <tr
+      *ngFor="let c of paginatedComplaints"
+      (click)="selectComplaint(c)"
+      class="clickable-row"
+    >
+      <td>{{ c.id }}</td>
+      <td>{{ c.customerName }}</td>
+      <td>{{ formatDate(c.submittedDate) }}</td>
+      <td>{{ c.category }}</td>
+      <td>{{ c.status }}</td>
+      <td>{{ c.assignedStaff || 'Not Assigned' }}</td>
+    </tr>
+  </tbody>
+</table>
 
-  <select (change)="assign(c.id, $any($event.target).value)">
+<!-- PAGINATION (SAME STYLE AS ADMIN RESERVATIONS) -->
+<div class="pagination" *ngIf="filtered.length">
+  <button (click)="prev()">Previous</button>
+  <span>Page {{ page }}</span>
+  <button (click)="next()">Next</button>
+</div>
+
+<hr />
+
+<!-- DETAIL VIEW (ONLY AFTER ROW CLICK) -->
+<div *ngIf="selected" class="detail-card">
+  <h3>Complaint Details</h3>
+
+  <p><b>ID:</b> {{ selected.id }}</p>
+  <p><b>Customer:</b> {{ selected.customerName }}</p>
+  <p><b>Category:</b> {{ selected.category }}</p>
+  <p><b>Status:</b> {{ selected.status }}</p>
+  <p><b>Assigned:</b> {{ selected.assignedStaff || 'Not Assigned' }}</p>
+
+  <!-- ASSIGN STAFF -->
+  <select (change)="assign(selected.id, $any($event.target).value)">
     <option value="">Assign Staff</option>
     <option>Ramesh (Cleaning)</option>
     <option>Anita (Billing)</option>
   </select>
 
-  <select (change)="updateStatus(c.id, $any($event.target).value)">
+  <!-- UPDATE STATUS -->
+  <select (change)="updateStatus(selected.id, $any($event.target).value)">
     <option>Open</option>
     <option>In Progress</option>
     <option>Resolved</option>
     <option>Closed</option>
   </select>
 
+  <!-- ACTION LOG -->
   <textarea #note placeholder="Resolution / investigation note"></textarea>
-  <button (click)="addAction(c.id, note.value)">Save Action</button>
+  <button (click)="addAction(selected.id, note.value)">
+    Save Action
+  </button>
 
   <ul>
-    <li *ngFor="let a of c.actions">
-      {{ a.actionDate }} – {{ a.actionBy }} – {{ a.notes }}
+    <li *ngFor="let a of selected.actions">
+      {{ formatDate(a.actionDate) }} – {{ a.actionBy }} – {{ a.notes }}
     </li>
   </ul>
 </div>

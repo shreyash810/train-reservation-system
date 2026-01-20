@@ -6,5 +6,5 @@ import { SearchReservationsComponent } from './admin/search-reservations/search-
 export const routes: Routes = [
   { path: 'admin/complaints', component: AdminComplaintsComponent },
   { path: 'staff/complaints', component: StaffComplaintsComponent },
-  { path: 'admin/search-reservations',component: SearchReservationsComponent }
+  { path: 'admin/reservations',component: SearchReservationsComponent }
 ];

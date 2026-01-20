@@ -1,6 +1,5 @@
 <h2>Staff Complaint Dashboard</h2>
 
-<!-- Complaint List -->
 <table class="table">
   <thead>
     <tr>
@@ -14,10 +13,10 @@
   </thead>
 
   <tbody>
-    <tr *ngFor="let c of complaints" (click)="select(c)">
+    <tr *ngFor="let c of paginatedComplaints" (click)="select(c)">
       <td>{{ c.id }}</td>
       <td>{{ c.customerName }}</td>
-      <td>{{ c.submittedDate }}</td>
+      <td>{{ formatDate(c.submittedDate) }}</td>
       <td>{{ c.category }}</td>
       <td>{{ c.status }}</td>
       <td>{{ c.priority }}</td>
@@ -25,12 +24,20 @@
   </tbody>
 </table>
 
+<!-- PAGINATION (SAME PATTERN AS OTHER PAGES) -->
+<div class="pagination" *ngIf="complaints.length">
+  <button (click)="prev()">Previous</button>
+  <span>Page {{ page }}</span>
+  <button (click)="next()">Next</button>
+</div>
+
+<!-- DETAIL VIEW -->
 <div *ngIf="selected" class="detail">
   <h3>Complaint Details</h3>
 
   <p><b>Complaint ID:</b> {{ selected.id }}</p>
   <p><b>Passenger Name:</b> {{ selected.customerName }}</p>
-  <p><b>Date Submitted:</b> {{ selected.submittedDate }}</p>
+  <p><b>Date Submitted:</b> {{ formatDate(selected.submittedDate) }}</p>
   <p><b>Category:</b> {{ selected.category }}</p>
   <p><b>Current Status:</b> {{ selected.status }}</p>
   <p><b>Priority Level:</b> {{ selected.priority }}</p>
@@ -59,7 +66,7 @@
   <h4>Action History</h4>
   <ul>
     <li *ngFor="let a of selected?.actions">
-      {{ a.actionDate }} — {{ a.actionBy }} — {{ a.notes }}
+      {{ formatDate(a.actionDate) }} — {{ a.actionBy }} — {{ a.notes }}
     </li>
   </ul>
 </div>

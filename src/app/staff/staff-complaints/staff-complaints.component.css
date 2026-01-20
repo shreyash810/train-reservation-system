@@ -53,3 +53,9 @@ button {
 button:hover {
   background-color: #002b6b;
 }
+.pagination {
+  margin-top: 15px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReservationService } from '../../services/reservation.service';
 import { Reservation } from '../../models/reservation.model';
+import { formatDateToDDMMYYYY } from '../../utils/date-utils';
 
 @Component({
   standalone: true,
@@ -21,13 +22,14 @@ export class SearchReservationsComponent {
   };
 
   results: Reservation[] = [];
-  selected?: Reservation;
+  selected: Reservation | null = null;
 
   page = 1;
   pageSize = 3;
 
   constructor(private service: ReservationService) {}
 
+  /* ---------- VALIDATION ---------- */
   isValidInput(): boolean {
     const textRegex = /^[a-zA-Z0-9\s-]*$/;
     return (
@@ -36,54 +38,65 @@ export class SearchReservationsComponent {
       textRegex.test(this.criteria.trainNumber)
     );
   }
-  
-  formatDate(dateStr:string): string {
-    if (!dateStr) return '';
 
-    const parts = dateStr.split('-');
-    if (parts.length !==3) return dateStr;
-
-    const year = parts[0];
-    const month = parts[1];
-    const day = parts[2];
-
-    return day + '-' + month + '-' + year;
-  }
+  /* ---------- SEARCH ---------- */
   search() {
     if (!this.isValidInput()) {
       alert('Invalid input detected. Please correct the fields.');
       return;
     }
+
     this.results = this.service.search(this.criteria);
     this.page = 1;
+    this.selected = null;
   }
 
+  /* ---------- PAGINATION ---------- */
   get paginatedResults() {
     const start = (this.page - 1) * this.pageSize;
     return this.results.slice(start, start + this.pageSize);
   }
 
   next() {
-    if (this.page * this.pageSize < this.results.length) this.page++;
+    if (this.page * this.pageSize < this.results.length) {
+      this.page++;
+    }
   }
 
   prev() {
-    if (this.page > 1) this.page--;
+    if (this.page > 1) {
+      this.page--;
+    }
   }
 
+  /* ---------- TRAIN DETAILS ---------- */
   viewTrainDetails(r: Reservation) {
     this.selected = r;
   }
 
+  /* ---------- ACTIONS WITH CONFIRMATION ---------- */
   cancel(id: string) {
+    const ok = confirm('Are you sure you want to cancel this reservation?');
+    if (!ok) return;
+
     this.service.cancelReservation(id);
   }
 
   edit(r: Reservation) {
-    if (r.status === 'Cancelled'){
+    if (r.status === 'Cancelled') {
       alert('Cancelled reservations cannot be edited');
       return;
     }
-    r.status = r.status === 'Confirmed' ? 'Pending' : 'Confirmed';
+
+    const newStatus = r.status === 'Confirmed' ? 'Pending' : 'Confirmed';
+    const ok = confirm(`Change status to ${newStatus}?`);
+    if (!ok) return;
+
+    r.status = newStatus;
+  }
+
+  /* ---------- DATE FORMAT ---------- */
+  formatDate(date: string): string {
+    return formatDateToDDMMYYYY(date);
   }
 }

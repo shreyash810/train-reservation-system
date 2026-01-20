@@ -35,20 +35,16 @@
       <td>{{ r.passengerName }}</td>
       <td>
         <a href="#" (click)="viewTrainDetails(r); $event.preventDefault()">
-        {{ r.trainNumber }}
+          {{ r.trainNumber }}
         </a>
       </td>
       <td>{{ formatDate(r.reservationDate) }}</td>
       <td>{{ r.status }}</td>
       <td>
-        <button 
-          (click)="edit(r)"
-          [disabled]="r.status === 'Cancelled'">
+        <button (click)="edit(r)" [disabled]="r.status === 'Cancelled'">
           Edit
         </button>
-        <button 
-          (click)="cancel(r.reservationId)"
-          [disabled]="r.status === 'Cancelled'">
+        <button (click)="cancel(r.reservationId)" [disabled]="r.status === 'Cancelled'">
           Cancel
         </button>
       </td>
@@ -66,12 +62,10 @@
   <h3>Train Details</h3>
   <p><b>Train:</b> {{ selected.trainName }} ({{ selected.trainNumber }})</p>
   <p><b>Route:</b> {{ selected.source }} → {{ selected.destination }}</p>
-
   <p>
     <b>Journey:</b><br>
-    {{ selected.departureDay }} - {{selected.departureTime}} (start)<br>
-    {{ selected.arrivalDay }} - {{selected.arrivalTime}} (end)
+    {{ selected.departureDay }} – {{ selected.departureTime }} (start)<br>
+    {{ selected.arrivalDay }} – {{ selected.arrivalTime }} (end)
   </p>
-
-  <p><b>Total Distance:</b> {{selected.totalKms}} km</p>
+  <p><b>Total Distance:</b> {{ selected.totalKms }} km</p>
 </div>
